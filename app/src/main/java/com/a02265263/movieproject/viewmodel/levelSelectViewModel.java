@@ -1,2 +1,6 @@
-package com.a02265263.movieproject.viewmodel;public class levelSelectViewModel {
+package com.a02265263.movieproject.viewmodel;
+
+import androidx.lifecycle.ViewModel;
+
+public class levelSelectViewModel extends ViewModel {
 }
