@@ -2,5 +2,5 @@ package com.a02265263.movieproject.viewmodel;
 
 import androidx.lifecycle.ViewModel;
 
-public class levelSelectViewModel extends ViewModel {
+public class StartScreenViewModel extends ViewModel{
 }
