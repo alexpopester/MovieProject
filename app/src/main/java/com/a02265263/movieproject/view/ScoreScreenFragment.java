@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +15,11 @@ import android.view.ViewGroup;
 import com.a02265263.movieproject.R;
 import com.a02265263.movieproject.viewmodel.ScoreScreenViewModel;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class ScoreScreenFragment extends Fragment {
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -28,6 +34,11 @@ public class ScoreScreenFragment extends Fragment {
         view.findViewById(R.id.retryButton).setOnClickListener(button -> {
             NavHostFragment.findNavController(this).navigate(R.id.action_scoreScreenFragment_to_gameScreenFragment);
         });
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewScoreScreen);
+        recyclerView.setAdapter(new ScoreAdapter(scoreScreenViewModel.getScores(), (score) -> {
+            System.out.println("touched");
+        }));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         return view;
     }
 }
