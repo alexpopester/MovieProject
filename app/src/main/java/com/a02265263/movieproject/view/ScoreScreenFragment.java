@@ -22,10 +22,10 @@ public class ScoreScreenFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_score_screen, container,false);
 
-        view.findViewById(R.id.returnToLevelSelectButton).setOnClickListener(button -> {
+        view.findViewById(R.id.levelSelectButton).setOnClickListener(button -> {
             NavHostFragment.findNavController(this).navigate(R.id.action_scoreScreenFragment_to_levelSelectFragment);
         });
-        view.findViewById(R.id.retryGameButton).setOnClickListener(button -> {
+        view.findViewById(R.id.retryButton).setOnClickListener(button -> {
             NavHostFragment.findNavController(this).navigate(R.id.action_scoreScreenFragment_to_gameScreenFragment);
         });
         return view;
