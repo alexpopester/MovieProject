@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/gameItemCharacter"
+        android:id="@+id/gameItemRole"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -25,7 +25,7 @@
         app:layout_constraintTop_toBottomOf="@+id/gameItemTitle" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/gameItemImage"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         app:layout_constraintEnd_toStartOf="@+id/gameItemTitle"
