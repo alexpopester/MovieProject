@@ -60,4 +60,6 @@ public class GameItemAdapter extends RecyclerView.Adapter<GameItemAdapter.GameIt
             image = itemView.findViewById(R.id.gameItemImage);
         }
     }
+
+
 }
