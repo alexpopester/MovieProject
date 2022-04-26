@@ -1,34 +1,32 @@
 package com.a02265263.movieproject.view;
 
-import android.hardware.lights.LightState;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.GenericLifecycleObserver;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Handler;
-import android.os.RecoverySystem;
-import android.util.JsonReader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.a02265263.movieproject.R;
 import com.a02265263.movieproject.viewmodel.GameScreenViewModel;
 import com.a02265263.movieproject.viewmodel.LevelSelectViewModel;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.model.GlideUrl;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.io.IOUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,15 +34,21 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameScreenFragment extends Fragment {
-    List<GameItemModel> gameItemList;
     RecyclerView recyclerView;
     TextView timerTextView;
     long startTime = 0;
     Handler timerHandler = new Handler();
+    JSONObject currentGameItem;
+    List<GameItemModel> gameItemList;
+    int id;
+    boolean gameActive = false;
+
 
 
     @Override
@@ -55,13 +59,20 @@ public class GameScreenFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_game_screen, container, false);
 
+
         // Setting level number
         int level = LevelSelectViewModel.getLevel();
         TextView levelView = view.findViewById(R.id.levelTxt);
         levelView.setText("Level " + level);
 
+
         // Getting details about level
         String[] levelDetails = LevelSelectViewModel.getLevelDetails(level);
+        String currentType = levelDetails[6];
+        if (!gameActive) {
+            id = Integer.parseInt(levelDetails[0]);
+            gameActive = true;
+        }
 
         // Setting end goal text
         TextView endTitle = view.findViewById(R.id.endMovieTxt);
@@ -86,22 +97,57 @@ public class GameScreenFragment extends Fragment {
         timerHandler.postDelayed(timerRunnable, 0);
 
 
-        // Current item picture
-        String url = "https://image.tmdb.org/t/p/w500/" + levelDetails[2];
-        ImageView imageView = view.findViewById(R.id.gameScreenCurrentImage);
-        Glide.with(view.getContext()).load(url).into(imageView);
-
-        // Temporary button at the bottm
+        // Temporary button at the bottom
         view.findViewById(R.id.gameButton).setOnClickListener(button -> {
             NavHostFragment.findNavController(this).navigate(R.id.action_gameScreenFragment_to_scoreScreenFragment);
         });
 
-        // Everything under here is a mess, I am sorry
+        // Fetch the JSONObject, different call depending on type
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    switch (currentType) {
+                        case "MOVIE":
+                            currentGameItem = callJsonApi("https://api.themoviedb.org/3/movie/" + id + "?api_key=10216e19b889e6cba38a744f25087a68&language=en-US&append_to_response=release_dates,credits");
+                            break;
+                        case "PERSON":
+                            currentGameItem = callJsonApi("https://api.themoviedb.org/3/person/" + id + "?api_key=10216e19b889e6cba38a744f25087a68&language=en-US&append_to_response=combined_credits");
+                            break;
+                        case "TV":
+                            currentGameItem = callJsonApi(" https://api.themoviedb.org/3/tv/" + id + "?api_key=10216e19b889e6cba38a744f25087a68&language=en-US");
+                            break;
+                    }
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+
+        // Makes it so stuff underneath doesn't happen before the JSONObject is loaded
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Calls the correct method for the type to fill in all the UI with info from JSONObject
+        switch (currentType) {
+            case "MOVIE":
+                showMovieInfo(currentGameItem, view);
+                break;
+            case "PERSON":
+                showPersonInfo(currentGameItem, view);
+                break;
+            case "TV":
+                showTVInfo(currentGameItem, view);
+                break;
+        }
+
+
         gameItemList = new ArrayList<>();
         recyclerView = view.findViewById(R.id.recyclerView);
-
-        GetData getData = new GetData();
-        getData.execute();
 
         GameItemAdapter adapter = new GameItemAdapter(this.getContext(), gameItemList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
@@ -111,87 +157,153 @@ public class GameScreenFragment extends Fragment {
         return view;
     }
 
-
-    // This stuff doesn't work and I don't know what I am doing
-    public class GetData extends AsyncTask<String, String, String> {
-
-        @Override
-        protected String doInBackground(String... strings) {
-            String current = "";
-
-            try {
-                URL url;
-                HttpURLConnection urlConnection = null;
-
-                try {
-                    url = new URL("https://api.themoviedb.org/3/movie/454626?api_key=10216e19b889e6cba38a744f25087a68&language=en-US&append_to_response=credits");
-                    urlConnection = (HttpURLConnection) url.openConnection();
-
-                    InputStream is = urlConnection.getInputStream();
-                    InputStreamReader isr = new InputStreamReader(is);
-
-                    int data = isr.read();
-                    while (data != -1) {
-                        current += (char) data;
-                        data = isr.read();
-                    }
-
-                    return current;
-
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    if (urlConnection != null) {
-                        urlConnection.disconnect();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-            return current;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            try {
-                JSONObject jsonObject = new JSONObject(s);
-                JSONArray jsonArray = jsonObject.getJSONObject("credits").getJSONArray("cast");
-//                JSONArray jsonArray = jsonObject.getJSONArray("credits");
-//                JSONArray jsonArray = jsonObject2.getJSONArray("cast");
-
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-
-                    GameItemModel model = new GameItemModel(
-                            jsonObject1.getString("id"),
-                            jsonObject1.getString("name"),
-                            jsonObject1.getString("profile_path"),
-                            jsonObject1.getString("character"),
-                            GameItemModel.Type.PERSON
-                    );
-
-                    gameItemList.add(model);
-
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-//            PutDataIntoRecyclerView(gameItemList);
+    public static JSONObject callJsonApi(String url)
+            throws IOException, JSONException {
+        InputStream is = new URL(url).openStream();
+        try {
+            String jsonText = IOUtils.toString(is, "UTF-8");
+            JSONObject json = new JSONObject(jsonText);
+            System.out.println(json.toString(4));
+            return json;
+        } finally {
+            is.close();
         }
     }
 
-//    private void PutDataIntoRecyclerView(List<GameItemModel> gameItemList) {
-//        GameItemAdapter adapter = new GameItemAdapter(this.getContext(), gameItemList);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-//
-//        recyclerView.setAdapter(adapter);
-//    }
+    private void showMovieInfo(JSONObject currentGameItem, View view) {
+        try {
+            // Current item picture
+            String imageUrl = "https://image.tmdb.org/t/p/w500/" + currentGameItem.get("poster_path");
+            ImageView imageView = view.findViewById(R.id.gameScreenCurrentImage);
+            Glide.with(view.getContext()).load(imageUrl).into(imageView);
+
+            // Current item title
+            String itemTitle = currentGameItem.getString("original_title");
+            TextView titleView = view.findViewById(R.id.currentTitleTxt);
+            titleView.setText(itemTitle);
+
+            // Current item date
+            String itemDate = currentGameItem.getString("release_date");
+            itemDate = itemDate.substring(0,4);
+            TextView dateView = view.findViewById(R.id.gameItemDate);
+            dateView.setText(itemDate);
+
+            // Current runtime
+            int runTime = currentGameItem.getInt("runtime");
+            String runTimeString = String.format("%sh %sm", runTime / 60, runTime % 60);
+            TextView runTimeView = view.findViewById(R.id.runTimeTxt);
+            runTimeView.setText(runTimeString);
+
+            // Current item description
+            String description = currentGameItem.getString("overview");
+            TextView descriptionView = view.findViewById(R.id.descriptionTxt);
+            descriptionView.setText(description);
+
+            // Current item rating
+            String rating = " ";
+            JSONObject temp = currentGameItem.getJSONObject("release_dates");
+            JSONArray releaseDates = temp.getJSONArray("results");
+            boolean found = false;
+            int i = 0;
+            while (!found && i < releaseDates.length()) {
+                JSONObject releaseDate = releaseDates.getJSONObject(i);
+                if (releaseDate.getString("iso_3166_1").equals("US")) {
+                    JSONArray temp2 = releaseDate.getJSONArray("release_dates");
+                    JSONObject releaseInfo = temp2.getJSONObject(0);
+                    rating = releaseInfo.getString("certification");
+                    found = true;
+                }
+                i++;
+            }
+            TextView ratingsView = view.findViewById(R.id.ratingsTxt);
+            ratingsView.setText(rating);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showPersonInfo(JSONObject currentGameItem, View view) {
+        try {
+            // Current person picture
+            String imageUrl = "https://image.tmdb.org/t/p/w500/" + currentGameItem.get("profile_path");
+            ImageView imageView = view.findViewById(R.id.gameScreenCurrentImage);
+            Glide.with(view.getContext()).load(imageUrl).into(imageView);
+
+            // Current person name
+            String itemTitle = currentGameItem.getString("name");
+            TextView titleView = view.findViewById(R.id.currentTitleTxt);
+            titleView.setText(itemTitle);
+
+            // Current person birthday
+            String itemDate = currentGameItem.getString("birthday");
+            TextView dateView = view.findViewById(R.id.gameItemDate);
+            dateView.setText(itemDate);
+
+            // Current runtime
+//                int runTime = currentGameItem.getInt("runtime");
+//                String runTimeString = String.format("%sh %sm", runTime / 60, runTime % 60);
+            TextView runTimeView = view.findViewById(R.id.runTimeTxt);
+            runTimeView.setVisibility(View.INVISIBLE);
+//                runTimeView.setText(runTimeString);
+
+            // Current person biography
+            String description = currentGameItem.getString("biography");
+            TextView descriptionView = view.findViewById(R.id.descriptionTxt);
+            descriptionView.setText(description);
+
+            // Current item rating
+            TextView ratingsView = view.findViewById(R.id.ratingsTxt);
+            ratingsView.setVisibility(View.INVISIBLE);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showTVInfo(JSONObject currentGameItem, View view) {
+        try {
+            // Current item picture
+            String imageUrl = "https://image.tmdb.org/t/p/w500/" + currentGameItem.get("poster_path");
+            ImageView imageView = view.findViewById(R.id.gameScreenCurrentImage);
+            Glide.with(view.getContext()).load(imageUrl).into(imageView);
+
+            // Current item title
+            String itemTitle = currentGameItem.getString("original_name");
+            TextView titleView = view.findViewById(R.id.currentTitleTxt);
+            titleView.setText(itemTitle);
+
+            // Current item date
+            String itemDate;
+            String startDate = currentGameItem.getString("first_air_date");
+            if (currentGameItem.getBoolean("in_production")) {
+                itemDate = String.format("%s-", startDate.substring(0,4));
+            } else {
+                String endDate = currentGameItem.getString("last_air_date");
+                itemDate = String.format("%S-%s", startDate.substring(0,4), endDate.substring(0,4));
+            }
+            TextView dateView = view.findViewById(R.id.gameItemDate);
+            dateView.setText(itemDate);
+
+            // Current runtime
+            TextView runTimeView = view.findViewById(R.id.runTimeTxt);
+            runTimeView.setVisibility(View.INVISIBLE);
+
+            // Current item description
+            String description = currentGameItem.getString("overview");
+            TextView descriptionView = view.findViewById(R.id.descriptionTxt);
+            descriptionView.setText(description);
+
+            // Current item rating
+            TextView ratingsView = view.findViewById(R.id.ratingsTxt);
+            ratingsView.setVisibility(View.INVISIBLE);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
 
 }

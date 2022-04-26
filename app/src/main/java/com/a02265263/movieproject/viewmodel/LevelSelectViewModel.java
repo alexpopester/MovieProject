@@ -13,6 +13,7 @@ public class LevelSelectViewModel extends ViewModel {
     static String[][] levelDetails = {
             {"454626","Sonic the Hedgehog", "/5OjBz8BR1yEfmNyC1oOzDdjv8KN.jpg", "24428", "The Avengers", "/yFSIUVTCvgYrpalUktulvk3Gi5Y.jpg", "MOVIE"},
             {"18918", "Dwayne Johnson", "/kuqFzlYMc2IrsOyPznMd1FroeGq.jpg", "5064", "Meryl Streep", "/xqL5IJxV0fDeD3OfkS3eWqwJoGV.jpg", "PERSON"},
+            {"2316","The Office","/qWnJzyZhyy74gjpSjIXWmuk0ifX.jpg","19885","Sherlock","/7WTsnHkbA0FaG6R9twfFde0I9hl.jpg","TV"},
             {"13", "Forrest Gump", "/saHP97rTPS5eLmrLQEcANmKrsFl.jpg", "8587", "The Lion King", "/sKCr78MXSLixwmZ8DyJLrpMsd15.jpg", "MOVIE"}
     };
 

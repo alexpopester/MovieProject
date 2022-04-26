@@ -79,7 +79,7 @@
         android:id="@+id/currentTitleTxt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Sonic the Hedgehog"
+        android:text="Title"
         android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/gameScreenCurrentImage"
@@ -89,7 +89,7 @@
         android:id="@+id/gameItemDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="Date"
         app:layout_constraintStart_toEndOf="@+id/gameScreenCurrentImage"
         app:layout_constraintTop_toBottomOf="@+id/currentTitleTxt" />
 
@@ -98,7 +98,7 @@
         android:layout_width="100dp"
         android:layout_height="18dp"
         android:layout_marginStart="4dp"
-        android:text="TextView"
+        android:text="rating"
         app:layout_constraintEnd_toStartOf="@+id/runTimeTxt"
         app:layout_constraintStart_toEndOf="@+id/gameItemDate"
         app:layout_constraintTop_toBottomOf="@+id/currentTitleTxt" />
@@ -117,7 +117,7 @@
         android:id="@+id/runTimeTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="RunTime"
         app:layout_constraintBottom_toBottomOf="@+id/ratingsTxt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.904"
