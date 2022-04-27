@@ -115,7 +115,7 @@ public class GameScreenFragment extends Fragment {
                             currentGameItem = callJsonApi("https://api.themoviedb.org/3/person/" + id + "?api_key=10216e19b889e6cba38a744f25087a68&language=en-US&append_to_response=combined_credits");
                             break;
                         case "TV":
-                            currentGameItem = callJsonApi(" https://api.themoviedb.org/3/tv/" + id + "?api_key=10216e19b889e6cba38a744f25087a68&language=en-US");
+                            currentGameItem = callJsonApi("https://api.themoviedb.org/3/tv/" + id + "?api_key=10216e19b889e6cba38a744f25087a68&language=en-US");
                             break;
                     }
                 } catch (IOException | JSONException e) {

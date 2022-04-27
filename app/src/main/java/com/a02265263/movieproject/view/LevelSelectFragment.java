@@ -48,6 +48,42 @@ public class LevelSelectFragment extends Fragment {
             level = 3;
             ShowLevelDetails();
         });
+        view.findViewById(R.id.level4Button).setOnClickListener(button -> {
+            level = 4;
+            ShowLevelDetails();
+        });
+        view.findViewById(R.id.level5Button).setOnClickListener(button -> {
+            level = 5;
+            ShowLevelDetails();
+        });
+        view.findViewById(R.id.level6Button).setOnClickListener(button -> {
+            level = 6;
+            ShowLevelDetails();
+        });
+        view.findViewById(R.id.level7Button).setOnClickListener(button -> {
+            level = 7;
+            ShowLevelDetails();
+        });
+        view.findViewById(R.id.level8Button).setOnClickListener(button -> {
+            level = 8;
+            ShowLevelDetails();
+        });
+        view.findViewById(R.id.level9Button).setOnClickListener(button -> {
+            level = 9;
+            ShowLevelDetails();
+        });
+        view.findViewById(R.id.level10Button).setOnClickListener(button -> {
+            level = 10;
+            ShowLevelDetails();
+        });
+        view.findViewById(R.id.level11Button).setOnClickListener(button -> {
+            level = 11;
+            ShowLevelDetails();
+        });
+        view.findViewById(R.id.level12Button).setOnClickListener(button -> {
+            level = 12;
+            ShowLevelDetails();
+        });
 
         // X button
         view.findViewById(R.id.levelDetailsExitButton).setOnClickListener(button -> {

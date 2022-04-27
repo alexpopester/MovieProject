@@ -5,41 +5,170 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#A2AAAA"
     tools:context=".view.LevelSelectFragment">
 
-    <Button
-        android:id="@+id/level3Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:text="Level 3"
-        app:layout_constraintBottom_toBottomOf="@+id/level2Button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/level2Button" />
 
-    <Button
-        android:id="@+id/level2Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="184dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="499dp"
-        android:text="Level 2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/level3Button"
-        app:layout_constraintStart_toEndOf="@+id/level1Button"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
+    <android.widget.Button
         android:id="@+id/level1Button"
-        android:layout_width="wrap_content"
+        android:layout_width="65dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:text="Level 1"
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/custom_level_select_button"
+        android:text="1"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/level2Button"
+        app:layout_constraintEnd_toStartOf="@+id/level2Button"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/level2Button" />
+        app:layout_constraintTop_toTopOf="@+id/level2Button"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <android.widget.Button
+        android:id="@+id/level2Button"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/custom_level_select_button"
+        android:text="2"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/level3Button"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <android.widget.Button
+        android:id="@+id/level3Button"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="28dp"
+        android:background="@drawable/custom_level_select_button"
+        android:text="3"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/level2Button"
+        app:layout_constraintEnd_toStartOf="@+id/level4Button"
+        app:layout_constraintTop_toTopOf="@+id/level2Button"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <android.widget.Button
+        android:id="@+id/level4Button"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="36dp"
+        android:background="@drawable/custom_level_select_button"
+        android:text="4"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/level3Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/level3Button" />
+
+    <android.widget.Button
+        android:id="@+id/level5Button"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/custom_level_select_button"
+        android:text="5"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/level1Button"
+        app:layout_constraintStart_toStartOf="@+id/level1Button"
+        app:layout_constraintTop_toBottomOf="@+id/level1Button" />
+
+    <android.widget.Button
+        android:id="@+id/level6Button"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/custom_level_select_button"
+        android:text="6"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/level2Button"
+        app:layout_constraintStart_toStartOf="@+id/level2Button"
+        app:layout_constraintTop_toBottomOf="@+id/level2Button" />
+
+    <android.widget.Button
+        android:id="@+id/level7Button"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/custom_level_select_button"
+        android:text="7"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/level3Button"
+        app:layout_constraintStart_toStartOf="@+id/level3Button"
+        app:layout_constraintTop_toBottomOf="@+id/level3Button" />
+
+    <android.widget.Button
+        android:id="@+id/level8Button"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/custom_level_select_button"
+        android:text="8"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/level4Button"
+        app:layout_constraintStart_toStartOf="@+id/level4Button"
+        app:layout_constraintTop_toBottomOf="@+id/level4Button" />
+
+    <android.widget.Button
+        android:id="@+id/level9Button"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/custom_level_select_button"
+        android:text="9"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/level5Button"
+        app:layout_constraintStart_toStartOf="@+id/level5Button"
+        app:layout_constraintTop_toBottomOf="@+id/level5Button" />
+
+    <android.widget.Button
+        android:id="@+id/level10Button"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/custom_level_select_button"
+        android:text="10"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/level6Button"
+        app:layout_constraintStart_toStartOf="@+id/level6Button"
+        app:layout_constraintTop_toBottomOf="@+id/level6Button" />
+
+    <android.widget.Button
+        android:id="@+id/level11Button"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/custom_level_select_button"
+        android:text="11"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/level7Button"
+        app:layout_constraintStart_toStartOf="@+id/level7Button"
+        app:layout_constraintTop_toBottomOf="@+id/level7Button" />
+
+    <android.widget.Button
+        android:id="@+id/level12Button"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/custom_level_select_button"
+        android:text="12"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/level8Button"
+        app:layout_constraintStart_toStartOf="@+id/level8Button"
+        app:layout_constraintTop_toBottomOf="@+id/level8Button" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/levelDetails"
@@ -133,5 +262,19 @@
             app:layout_constraintTop_toBottomOf="@+id/levelDetailsStartTitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="SELECT LEVEL"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#FFFFFF"
+        android:textSize="52sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:fontFamily="sans-serif-medium" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
