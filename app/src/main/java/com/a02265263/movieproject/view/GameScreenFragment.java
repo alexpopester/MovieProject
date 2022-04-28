@@ -12,6 +12,7 @@ import androidx.databinding.ObservableArrayList;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,6 +38,7 @@ public class GameScreenFragment extends Fragment {
     long startTime = 0;
     Handler timerHandler = new Handler();
     JSONObject currentGameItem;
+    JSONObject currentTvCredits;
     List<GameItemModel> gameItemList;
     int id;
     boolean gameActive = false;
@@ -118,6 +120,7 @@ public class GameScreenFragment extends Fragment {
                             break;
                         case "TV":
                             currentGameItem = callJsonApi("https://api.themoviedb.org/3/tv/" + id + "?api_key=10216e19b889e6cba38a744f25087a68&language=en-US");
+                            currentTvCredits = callJsonApi("https://api.themoviedb.org/3/tv/" + id + "/credits?api_key=10216e19b889e6cba38a744f25087a68&language=en-US");
                             break;
                     }
                 } catch (IOException | JSONException e) {
@@ -225,13 +228,19 @@ public class GameScreenFragment extends Fragment {
             JSONArray cast = temp2.getJSONArray("cast");
             ObservableArrayList<GameItemModel> castList = new ObservableArrayList<>();
             for (int j = 0; j < cast.length(); j++) {
-                JSONObject actor = cast.getJSONObject(j);
-                String name = actor.getString("name");
-                String role = actor.getString("character");
-                String imageUrl2 = actor.getString("profile_path");
-                String id = actor.getString("id");
-                GameItemModel actorModel = new GameItemModel(id, name, imageUrl2, role,  GameItemModel.Type.PERSON);
-                castList.add(actorModel);
+                if (j < cast.length()) {
+                    try {
+                        JSONObject actor = cast.getJSONObject(j);
+                        String name = actor.getString("name");
+                        String role = actor.getString("character");
+                        String imageUrl2 = actor.getString("profile_path");
+                        String id = actor.getString("id");
+                        GameItemModel actorModel = new GameItemModel(id, name, imageUrl2, role, GameItemModel.Type.PERSON);
+                        castList.add(actorModel);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
             RecyclerView recyclerView = view.findViewById(R.id.recyclerViewGame);
             Bundle bundle = new Bundle();
@@ -240,7 +249,7 @@ public class GameScreenFragment extends Fragment {
                 bundle.putString("type", actor.getType().toString());
                 NavHostFragment.findNavController(this).navigate(R.id.action_gameScreenFragment_self, bundle);
             }));
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.HORIZONTAL, false));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -249,6 +258,7 @@ public class GameScreenFragment extends Fragment {
     private void showPersonInfo(JSONObject currentGameItem, View view) {
         try {
             // Current person picture
+
             String imageUrl = "https://image.tmdb.org/t/p/w500/" + currentGameItem.get("profile_path");
             ImageView imageView = view.findViewById(R.id.gameScreenCurrentImage);
             Glide.with(view.getContext()).load(imageUrl).into(imageView);
@@ -278,6 +288,34 @@ public class GameScreenFragment extends Fragment {
             // Current item rating
             TextView ratingsView = view.findViewById(R.id.ratingsTxt);
             ratingsView.setVisibility(View.INVISIBLE);
+
+            // get Movie credits for current person
+            JSONObject credits = currentGameItem.getJSONObject("combined_credits");
+            JSONArray cast = credits.getJSONArray("cast");
+            ObservableArrayList<GameItemModel> movieCredits = new ObservableArrayList<>();
+            System.out.println(cast.length());
+            for (int i = 0; i < cast.length(); i++) {
+                try {
+                    JSONObject movie = cast.getJSONObject(i);
+                    String title = movie.getString("title");
+                    String imageUrl2 = "https://image.tmdb.org/t/p/w500/" + movie.getString("poster_path");
+                    String id = movie.getString("id");
+                    String date = movie.getString("release_date");
+                    GameItemModel movieModel = new GameItemModel(id, title, imageUrl2, date, GameItemModel.Type.MOVIE);
+                    movieCredits.add(movieModel);
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            RecyclerView recyclerView = view.findViewById(R.id.recyclerViewGame);
+            Bundle bundle = new Bundle();
+            recyclerView.setAdapter(new GameCreditsAdapter(movieCredits, getContext(), (movie) -> {
+                bundle.putString("id", movie.getId());
+                bundle.putString("type", movie.getType().toString());
+                NavHostFragment.findNavController(this).navigate(R.id.action_gameScreenFragment_self, bundle);
+            }));
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.HORIZONTAL, false));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -320,6 +358,50 @@ public class GameScreenFragment extends Fragment {
             TextView ratingsView = view.findViewById(R.id.ratingsTxt);
             ratingsView.setVisibility(View.INVISIBLE);
 
+            // current item cast credits
+            JSONArray cast = currentTvCredits.getJSONArray("cast");
+            JSONArray crew = currentTvCredits.getJSONArray("crew");
+            ObservableArrayList<GameItemModel> castList = new ObservableArrayList<>();
+            for (int j = 0; j < cast.length(); j++) {
+                if (j < cast.length()) {
+                    try {
+                        JSONObject actor = cast.getJSONObject(j);
+                        String name = actor.getString("name");
+                        String role = actor.getString("character");
+                        String imageUrl2 = actor.getString("profile_path");
+                        String id = actor.getString("id");
+                        GameItemModel actorModel = new GameItemModel(id, name, imageUrl2, role, GameItemModel.Type.PERSON);
+                        castList.add(actorModel);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            for (int j = 0; j < crew.length(); j++) {
+                System.out.println("outside of error");
+                if (j < crew.length()) {
+                    try {
+                        JSONObject actor = crew.getJSONObject(j);
+                        String name = actor.getString("name");
+                        String role = actor.getString("known_for_department");
+                        String imageUrl2 = actor.getString("profile_path");
+                        String id = actor.getString("id");
+                        GameItemModel actorModel = new GameItemModel(id, name, imageUrl2, role, GameItemModel.Type.PERSON);
+                        castList.add(actorModel);
+                    } catch (JSONException e) {
+                        System.out.println("error done and done");
+                        e.printStackTrace();
+                    }
+                }
+            }
+            RecyclerView recyclerView = view.findViewById(R.id.recyclerViewGame);
+            Bundle bundle = new Bundle();
+            recyclerView.setAdapter(new GameCreditsAdapter(castList, getContext(), (actor) -> {
+                bundle.putString("id", actor.getId());
+                bundle.putString("type", actor.getType().toString());
+                NavHostFragment.findNavController(this).navigate(R.id.action_gameScreenFragment_self, bundle);
+            }));
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.HORIZONTAL, false));
         } catch (JSONException e) {
             e.printStackTrace();
         }
