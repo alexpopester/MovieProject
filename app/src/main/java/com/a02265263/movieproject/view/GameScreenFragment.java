@@ -119,8 +119,7 @@ public class GameScreenFragment extends Fragment {
                             currentGameItem = callJsonApi("https://api.themoviedb.org/3/person/" + id + "?api_key=10216e19b889e6cba38a744f25087a68&language=en-US&append_to_response=combined_credits");
                             break;
                         case "TV":
-                            currentGameItem = callJsonApi("https://api.themoviedb.org/3/tv/" + id + "?api_key=10216e19b889e6cba38a744f25087a68&language=en-US");
-                            currentTvCredits = callJsonApi("https://api.themoviedb.org/3/tv/" + id + "/credits?api_key=10216e19b889e6cba38a744f25087a68&language=en-US");
+                            currentGameItem = callJsonApi("https://api.themoviedb.org/3/tv/" + id + "?api_key=10216e19b889e6cba38a744f25087a68&language=en-US&append_to_response=aggregate_credits");
                             break;
                     }
                 } catch (IOException | JSONException e) {
@@ -359,41 +358,43 @@ public class GameScreenFragment extends Fragment {
             ratingsView.setVisibility(View.INVISIBLE);
 
             // current item cast credits
-            JSONArray cast = currentTvCredits.getJSONArray("cast");
-            JSONArray crew = currentTvCredits.getJSONArray("crew");
+            JSONObject aggregateCredits = currentGameItem.getJSONObject("aggregate_credits");
+            JSONArray cast = aggregateCredits.getJSONArray("cast");
             ObservableArrayList<GameItemModel> castList = new ObservableArrayList<>();
             for (int j = 0; j < cast.length(); j++) {
                 if (j < cast.length()) {
                     try {
                         JSONObject actor = cast.getJSONObject(j);
                         String name = actor.getString("name");
-                        String role = actor.getString("character");
+                        JSONArray roles = actor.getJSONArray("roles");
+                        JSONObject role = roles.getJSONObject(0);
+                        String roleName = role.getString("character");
                         String imageUrl2 = actor.getString("profile_path");
                         String id = actor.getString("id");
-                        GameItemModel actorModel = new GameItemModel(id, name, imageUrl2, role, GameItemModel.Type.PERSON);
+                        GameItemModel actorModel = new GameItemModel(id, name, imageUrl2, roleName, GameItemModel.Type.PERSON);
                         castList.add(actorModel);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
             }
-            for (int j = 0; j < crew.length(); j++) {
-                System.out.println("outside of error");
-                if (j < crew.length()) {
-                    try {
-                        JSONObject actor = crew.getJSONObject(j);
-                        String name = actor.getString("name");
-                        String role = actor.getString("known_for_department");
-                        String imageUrl2 = actor.getString("profile_path");
-                        String id = actor.getString("id");
-                        GameItemModel actorModel = new GameItemModel(id, name, imageUrl2, role, GameItemModel.Type.PERSON);
-                        castList.add(actorModel);
-                    } catch (JSONException e) {
-                        System.out.println("error done and done");
-                        e.printStackTrace();
-                    }
-                }
-            }
+//            for (int j = 0; j < crew.length(); j++) {
+//                System.out.println("outside of error");
+//                if (j < crew.length()) {
+//                    try {
+//                        JSONObject actor = crew.getJSONObject(j);
+//                        String name = actor.getString("name");
+//                        String role = actor.getString("known_for_department");
+//                        String imageUrl2 = actor.getString("profile_path");
+//                        String id = actor.getString("id");
+//                        GameItemModel actorModel = new GameItemModel(id, name, imageUrl2, role, GameItemModel.Type.PERSON);
+//                        castList.add(actorModel);
+//                    } catch (JSONException e) {
+//                        System.out.println("error done and done");
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
             RecyclerView recyclerView = view.findViewById(R.id.recyclerViewGame);
             Bundle bundle = new Bundle();
             recyclerView.setAdapter(new GameCreditsAdapter(castList, getContext(), (actor) -> {
