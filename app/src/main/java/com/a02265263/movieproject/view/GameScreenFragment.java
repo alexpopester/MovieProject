@@ -1,7 +1,5 @@
 package com.a02265263.movieproject.view;
 
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -10,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.databinding.ObservableArrayList;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
@@ -25,17 +24,10 @@ import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.io.IO
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +47,7 @@ public class GameScreenFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        GameScreenViewModel gameScreenViewModel = new ViewModelProvider(this).get(GameScreenViewModel.class);
+        GameScreenViewModel gameScreenViewModel = new ViewModelProvider(this).get(GameScreenViewModel.class).getInstance();
 
         View view = inflater.inflate(R.layout.fragment_game_screen, container, false);
 
@@ -69,9 +61,17 @@ public class GameScreenFragment extends Fragment {
         // Getting details about level
         String[] levelDetails = LevelSelectViewModel.getLevelDetails(level);
         String currentType = levelDetails[6];
-        if (!gameActive) {
-            id = Integer.parseInt(levelDetails[0]);
-            gameActive = true;
+        id = Integer.parseInt(levelDetails[0]);
+        if (!gameScreenViewModel.getGameActive()) {
+            gameScreenViewModel.startGame();
+        }
+        else {
+            Bundle bundle = this.getArguments();
+            if (bundle != null) {
+                System.out.println(bundle.getInt("id"));
+                id = Integer.parseInt(bundle.getString("id"));
+                currentType = bundle.getString("type");
+            }
         }
 
         // Setting end goal text
@@ -99,15 +99,17 @@ public class GameScreenFragment extends Fragment {
 
         // Temporary button at the bottom
         view.findViewById(R.id.gameButton).setOnClickListener(button -> {
+            gameScreenViewModel.endGame();
             NavHostFragment.findNavController(this).navigate(R.id.action_gameScreenFragment_to_scoreScreenFragment);
         });
 
         // Fetch the JSONObject, different call depending on type
+        String finalCurrentType = currentType;
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    switch (currentType) {
+                    switch (finalCurrentType) {
                         case "MOVIE":
                             currentGameItem = callJsonApi("https://api.themoviedb.org/3/movie/" + id + "?api_key=10216e19b889e6cba38a744f25087a68&language=en-US&append_to_response=release_dates,credits");
                             break;
@@ -146,13 +148,13 @@ public class GameScreenFragment extends Fragment {
         }
 
 
-        gameItemList = new ArrayList<>();
-        recyclerView = view.findViewById(R.id.recyclerView);
-
-        GameItemAdapter adapter = new GameItemAdapter(this.getContext(), gameItemList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-
-        recyclerView.setAdapter(adapter);
+//        gameItemList = new ArrayList<>();
+//        recyclerView = view.findViewById(R.id.recyclerViewGame);
+//
+//        GameItemAdapter adapter = new GameItemAdapter(this.getContext(), gameItemList);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+//
+//        recyclerView.setAdapter(adapter);
 
         return view;
     }
@@ -163,7 +165,7 @@ public class GameScreenFragment extends Fragment {
         try {
             String jsonText = IOUtils.toString(is, "UTF-8");
             JSONObject json = new JSONObject(jsonText);
-            System.out.println(json.toString(4));
+//            System.out.println(json.toString(4));
             return json;
         } finally {
             is.close();
@@ -217,6 +219,28 @@ public class GameScreenFragment extends Fragment {
             }
             TextView ratingsView = view.findViewById(R.id.ratingsTxt);
             ratingsView.setText(rating);
+
+            // cast icons
+            JSONObject temp2 = currentGameItem.getJSONObject("credits");
+            JSONArray cast = temp2.getJSONArray("cast");
+            ObservableArrayList<GameItemModel> castList = new ObservableArrayList<>();
+            for (int j = 0; j < cast.length(); j++) {
+                JSONObject actor = cast.getJSONObject(j);
+                String name = actor.getString("name");
+                String role = actor.getString("character");
+                String imageUrl2 = actor.getString("profile_path");
+                String id = actor.getString("id");
+                GameItemModel actorModel = new GameItemModel(id, name, imageUrl2, role,  GameItemModel.Type.PERSON);
+                castList.add(actorModel);
+            }
+            RecyclerView recyclerView = view.findViewById(R.id.recyclerViewGame);
+            Bundle bundle = new Bundle();
+            recyclerView.setAdapter(new GameCreditsAdapter(castList, getContext(), (actor) -> {
+                bundle.putString("id", actor.getId());
+                bundle.putString("type", actor.getType().toString());
+                NavHostFragment.findNavController(this).navigate(R.id.action_gameScreenFragment_self, bundle);
+            }));
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         } catch (JSONException e) {
             e.printStackTrace();
         }

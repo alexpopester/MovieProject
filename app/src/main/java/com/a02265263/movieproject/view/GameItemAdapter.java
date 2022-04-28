@@ -17,8 +17,14 @@ import java.util.List;
 
 public class GameItemAdapter extends RecyclerView.Adapter<GameItemAdapter.GameItemViewHolder> {
 
+    public interface OnClickListener {
+        void onClick(GameItemModel gameItemModel);
+    }
+
     private Context mContext;
     private List<GameItemModel> mData;
+    private OnClickListener gameItemClickListener;
+
 
     public GameItemAdapter(Context mContext, List<GameItemModel> mData) {
         this.mContext= mContext;

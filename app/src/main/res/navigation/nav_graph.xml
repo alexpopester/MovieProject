@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_gameScreenFragment_to_scoreScreenFragment"
             app:destination="@id/scoreScreenFragment" />
+        <action
+            android:id="@+id/action_gameScreenFragment_self"
+            app:destination="@id/gameScreenFragment" />
     </fragment>
     <fragment
         android:id="@+id/levelSelectFragment"

@@ -37,4 +37,6 @@ public class GameItemModel {
     public String getRole() {
         return role;
     }
+
+    public Type getType() { return type; }
 }
