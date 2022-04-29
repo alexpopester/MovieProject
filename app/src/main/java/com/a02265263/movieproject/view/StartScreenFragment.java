@@ -91,6 +91,8 @@ public class StartScreenFragment extends Fragment {
         setRecyclerView(recyclerViewTop, popMoviesTop, false);
         setRecyclerView(recyclerViewBottom, popMoviesBottom, true);
 
+
+
         return view;
     }
 

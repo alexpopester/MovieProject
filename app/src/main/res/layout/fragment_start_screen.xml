@@ -8,35 +8,22 @@
     android:background="#A2AAAA"
     tools:context=".view.StartScreenFragment">
 
-    <TextView
-        android:id="@+id/titleText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="117dp"
-        android:layout_marginBottom="514dp"
-        android:text="         TEMP: \nMOVIE PROJECT"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <android.widget.Button
         android:id="@+id/startGameButton"
         android:layout_width="250dp"
         android:layout_height="60dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="216dp"
         android:background="@drawable/custom_start_button"
         android:text="Start"
-        android:textColor="#FFFFFF"
+        android:textColor="#313132"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleText"
         tools:fontFamily="serif" />
 
     <com.a02265263.movieproject.view.autoScrollRecyclerView.NoScrollRecyclerView
@@ -45,8 +32,10 @@
         android:layout_height="160dp"
         app:layout_constraintBottom_toTopOf="@+id/startGameButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleText" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.247" />
 
     <com.a02265263.movieproject.view.autoScrollRecyclerView.NoScrollRecyclerView
         android:id="@+id/popMoviesBottom"
@@ -54,6 +43,18 @@
         android:layout_height="160dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/startGameButton" />
+        app:layout_constraintTop_toBottomOf="@+id/startGameButton"
+        app:layout_constraintVertical_bias="0.6" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="500dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="-24dp"
+        android:src="@drawable/tiltednamedclipperboard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
