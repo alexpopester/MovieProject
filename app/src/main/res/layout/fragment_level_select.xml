@@ -5,7 +5,8 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#A2AAAA"
+    android:background="@color/gray_700"
+    android:visibility="visible"
     tools:context=".view.LevelSelectFragment">
 
 
@@ -17,7 +18,7 @@
         android:layout_marginEnd="24dp"
         android:background="@drawable/custom_level_select_button"
         android:text="1"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/gray_200"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/level2Button"
         app:layout_constraintEnd_toStartOf="@+id/level2Button"
@@ -34,7 +35,7 @@
         android:layout_marginEnd="24dp"
         android:background="@drawable/custom_level_select_button"
         android:text="2"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/gray_200"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/level3Button"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -46,7 +47,7 @@
         android:layout_marginEnd="28dp"
         android:background="@drawable/custom_level_select_button"
         android:text="3"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/gray_200"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/level2Button"
         app:layout_constraintEnd_toStartOf="@+id/level4Button"
@@ -57,10 +58,10 @@
         android:id="@+id/level4Button"
         android:layout_width="65dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/custom_level_select_button"
         android:text="4"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/gray_200"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/level3Button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,7 +74,7 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/custom_level_select_button"
         android:text="5"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/gray_200"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/level1Button"
         app:layout_constraintStart_toStartOf="@+id/level1Button"
@@ -86,7 +87,7 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/custom_level_select_button"
         android:text="6"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/gray_200"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/level2Button"
         app:layout_constraintStart_toStartOf="@+id/level2Button"
@@ -99,7 +100,7 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/custom_level_select_button"
         android:text="7"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/gray_200"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/level3Button"
         app:layout_constraintStart_toStartOf="@+id/level3Button"
@@ -112,7 +113,7 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/custom_level_select_button"
         android:text="8"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/gray_200"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/level4Button"
         app:layout_constraintStart_toStartOf="@+id/level4Button"
@@ -125,7 +126,7 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/custom_level_select_button"
         android:text="9"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/gray_200"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/level5Button"
         app:layout_constraintStart_toStartOf="@+id/level5Button"
@@ -138,7 +139,7 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/custom_level_select_button"
         android:text="10"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/gray_200"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/level6Button"
         app:layout_constraintStart_toStartOf="@+id/level6Button"
@@ -151,7 +152,7 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/custom_level_select_button"
         android:text="11"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/gray_200"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/level7Button"
         app:layout_constraintStart_toStartOf="@+id/level7Button"
@@ -164,7 +165,7 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/custom_level_select_button"
         android:text="12"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/gray_200"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/level8Button"
         app:layout_constraintStart_toStartOf="@+id/level8Button"
@@ -174,57 +175,60 @@
         android:id="@+id/levelDetails"
         android:layout_width="409dp"
         android:layout_height="325dp"
+        android:background="@color/gray_200"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
             android:id="@+id/levelDetailsStartImage"
-            android:layout_width="75dp"
-            android:layout_height="123dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="110dp"
+            android:layout_height="160dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="15dp"
             android:src="@android:drawable/ic_menu_gallery"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/levelDetailsExitButton" />
+            app:layout_constraintTop_toBottomOf="@+id/levelDetailsLevelNumber" />
 
         <ImageButton
             android:id="@+id/levelDetailsExitButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/red"
             android:src="@android:drawable/ic_menu_close_clear_cancel"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/levelDetailsLevelNumber"
-            android:layout_width="188dp"
+            android:layout_width="140dp"
             android:layout_height="49dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:text="Level 0"
-            android:textSize="30sp"
-            app:layout_constraintBottom_toBottomOf="@+id/levelDetailsExitButton"
-            app:layout_constraintStart_toEndOf="@+id/levelDetailsExitButton"
+            android:textColor="@color/white"
+            android:textSize="36sp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <android.widget.Button
             android:id="@+id/startLevelButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="4dp"
+            android:backgroundTint="@color/medium_blue"
             android:text="Start Level"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintEnd_toStartOf="@+id/levelDetailsEndImage"
+            app:layout_constraintStart_toEndOf="@+id/levelDetailsStartImage" />
 
         <ImageView
             android:id="@+id/levelDetailsEndImage"
-            android:layout_width="75dp"
-            android:layout_height="123dp"
-            android:layout_marginEnd="20dp"
+            android:layout_width="110dp"
+            android:layout_height="160dp"
+            android:layout_marginEnd="32dp"
             android:src="@android:drawable/ic_menu_gallery"
             app:layout_constraintBottom_toBottomOf="@+id/levelDetailsStartImage"
             app:layout_constraintEnd_toEndOf="parent"
@@ -232,34 +236,37 @@
 
         <TextView
             android:id="@+id/levelDetailsStartTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:text="TextView"
+            android:textColor="@color/white"
             android:textSize="20sp"
-            app:layout_constraintStart_toEndOf="@+id/levelDetailsStartImage"
-            app:layout_constraintTop_toTopOf="@+id/levelDetailsStartImage" />
+            app:layout_constraintEnd_toEndOf="@+id/levelDetailsStartImage"
+            app:layout_constraintStart_toStartOf="@+id/levelDetailsStartImage"
+            app:layout_constraintTop_toBottomOf="@+id/levelDetailsStartImage" />
 
         <TextView
             android:id="@+id/levelDetailsEndTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:text="TextView"
+            android:textColor="@color/white"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/levelDetailsEndImage"
-            app:layout_constraintEnd_toStartOf="@+id/levelDetailsEndImage" />
+            app:layout_constraintEnd_toEndOf="@+id/levelDetailsEndImage"
+            app:layout_constraintStart_toStartOf="@+id/levelDetailsEndImage"
+            app:layout_constraintTop_toBottomOf="@+id/levelDetailsEndImage" />
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="to"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/levelDetailsEndTitle"
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="1dp"
+            android:src="@drawable/neon_arrow_long_empty"
+            app:layout_constraintBottom_toBottomOf="@+id/levelDetailsStartImage"
             app:layout_constraintEnd_toStartOf="@+id/levelDetailsEndImage"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/levelDetailsStartImage"
-            app:layout_constraintTop_toBottomOf="@+id/levelDetailsStartTitle" />
+            app:layout_constraintTop_toTopOf="@+id/levelDetailsStartImage" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -267,12 +274,13 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="SELECT LEVEL"
+        android:layout_marginTop="28dp"
+        android:text="LEVEL SELECT"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/magenta"
         android:textSize="52sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.636"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:fontFamily="sans-serif-medium" />
