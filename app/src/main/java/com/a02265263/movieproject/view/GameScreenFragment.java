@@ -67,7 +67,7 @@ public class GameScreenFragment extends Fragment {
         gameScreenViewModel.setEndID(Integer.parseInt(levelDetails[3]));
         id = Integer.parseInt(levelDetails[0]);
         if (!gameScreenViewModel.getGameActive()) {
-            gameScreenViewModel.startGame();
+            gameScreenViewModel.startGame(level);
             gameScreenViewModel.resetTimer();
             gameScreenViewModel.resetMoves();
         }
@@ -198,7 +198,12 @@ public class GameScreenFragment extends Fragment {
 
             // Current item date
             String itemDate = currentGameItem.getString("release_date");
-            itemDate = itemDate.substring(0,4);
+            if (itemDate.equals("")) {
+                itemDate = "Unknown";
+            }
+            else {
+                itemDate = itemDate.substring(0, 4);
+            }
             TextView dateView = view.findViewById(R.id.gameItemDate);
             dateView.setText(itemDate);
 
@@ -268,7 +273,6 @@ public class GameScreenFragment extends Fragment {
     private void showPersonInfo(JSONObject currentGameItem, View view) {
         try {
             // Current person picture
-
             String imageUrl = "https://image.tmdb.org/t/p/w500/" + currentGameItem.get("profile_path");
             ImageView imageView = view.findViewById(R.id.gameScreenCurrentImage);
             Glide.with(view.getContext()).load(imageUrl).into(imageView);
@@ -303,17 +307,29 @@ public class GameScreenFragment extends Fragment {
             JSONObject credits = currentGameItem.getJSONObject("combined_credits");
             JSONArray cast = credits.getJSONArray("cast");
             ObservableArrayList<GameItemModel> movieCredits = new ObservableArrayList<>();
+            ArrayList<String> listOfUsedIds = new ArrayList<>();
             System.out.println(cast.length());
             for (int i = 0; i < cast.length(); i++) {
                 try {
                     JSONObject movie = cast.getJSONObject(i);
-                    String title = movie.getString("title");
+                    String title = "";
+                    String date = "";
+                    if (movie.getString("media_type").equals("movie")) {
+                        title = movie.getString("title");
+                        date = movie.getString("release_date");
+                    }
+                    else {
+                        title = movie.getString("name");
+                        date = movie.getString("first_air_date");
+                    }
                     String imageUrl2 = "https://image.tmdb.org/t/p/w500/" + movie.getString("poster_path");
                     String id = movie.getString("id");
-                    String date = movie.getString("release_date");
                     Double popularity = movie.getDouble("popularity");
-                    GameItemModel movieModel = new GameItemModel(id, title, imageUrl2, date, GameItemModel.Type.MOVIE, popularity);
-                    movieCredits.add(movieModel);
+                    if (!listOfUsedIds.contains(id)) {
+                        GameItemModel movieModel = new GameItemModel(id, title, imageUrl2, date, GameItemModel.Type.MOVIE, popularity);
+                        movieCredits.add(movieModel);
+                        listOfUsedIds.add(id);
+                    }
                 }
                 catch (JSONException e) {
                     e.printStackTrace();

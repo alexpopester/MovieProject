@@ -55,4 +55,8 @@ public class Score implements Comparable<Score>{
     public long getMoves() {
         return moves;
     }
+
+    public long getLevel() {
+        return level;
+    }
 }

@@ -37,8 +37,9 @@ public class ScoreScreenFragment extends Fragment {
         view.findViewById(R.id.retryButton).setOnClickListener(button -> {
             NavHostFragment.findNavController(this).navigate(R.id.action_scoreScreenFragment_to_gameScreenFragment);
         });
+        int level = gameScreenViewModel.getLevel();
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewScoreScreen);
-        recyclerView.setAdapter(new ScoreAdapter(scoreScreenViewModel.getScores(), (score) -> {
+        recyclerView.setAdapter(new ScoreAdapter(scoreScreenViewModel.getScores(level), (score) -> {
             System.out.println("touched");
         }));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

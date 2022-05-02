@@ -14,6 +14,9 @@ public interface ScoresDao {
     @Query("SELECT * FROM score")
     List<Score> getScores();
 
+    @Query("SELECT * FROM score WHERE level = :level")
+    Score getScoreByLevel(int level);
+
     @Insert
     long createScore(Score score);
 

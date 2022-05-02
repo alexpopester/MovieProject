@@ -26,7 +26,7 @@ public class ScoreScreenViewModel extends ViewModel {
 
     public MutableLiveData<String> getErrorMessage() { return errorMessage; }
 
-    public ObservableArrayList<Score> getScores() {
+    public ObservableArrayList<Score> getScores(int level) {
         this.scores.clear();
         this.repository.getScores(scores -> {
             this.scores.addAll(scores);

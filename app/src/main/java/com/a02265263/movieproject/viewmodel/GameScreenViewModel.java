@@ -25,15 +25,17 @@ public class GameScreenViewModel extends ViewModel {
     private int endID = 0;
     private int moves = 0;
     ScoresRepository repository;
+    private int level = 0;
 
     public static GameScreenViewModel getInstance() {
         return ourInstance;
     }
 
 
-    public void startGame(){
+    public void startGame(int level){
         if (!gameActive){
             gameActive = true;
+            this.level = level;
         }
     }
 
@@ -85,6 +87,9 @@ public class GameScreenViewModel extends ViewModel {
     }
     public Long getEndTime() {
         return endTime;
+    }
+    public int getLevel(){
+        return level;
     }
 
     public void resetTimer(){

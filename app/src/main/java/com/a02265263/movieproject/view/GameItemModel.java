@@ -31,7 +31,15 @@ public class GameItemModel implements Comparable<GameItemModel> {
     public GameItemModel(String id, String title, String image, String role, Type type, double popularity) {
         this.id = id;
         this.title = title;
-        this.image = "https://image.tmdb.org/t/p/w500" + image;
+        if (this.title.equals("Happiness Isn't Everything")){
+            System.out.println("Happiness Isn't Everything");
+        }
+        if (!image.equals("https://image.tmdb.org/t/p/w500/null")) {
+            this.image = "https://image.tmdb.org/t/p/w500" + image;
+        }
+        else {
+            this.image = "null";
+        }
         this.role = role;
         this.type = type;
         this.popularity = popularity;
