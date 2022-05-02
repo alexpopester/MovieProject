@@ -80,6 +80,7 @@ public class GameScreenFragment extends Fragment {
                     gameScreenViewModel.endGame();
                     gameScreenViewModel.stopTimer();
                     NavHostFragment.findNavController(this).navigate(R.id.action_gameScreenFragment_to_scoreScreenFragment);
+                    System.out.println("error");
                 }
                 currentType = bundle.getString("type");
             }
@@ -250,7 +251,7 @@ public class GameScreenFragment extends Fragment {
                         String imageUrl2 = actor.getString("profile_path");
                         String id = actor.getString("id");
                         Double popularity = actor.getDouble("popularity");
-                        GameItemModel actorModel = new GameItemModel(id, name, imageUrl2, role, GameItemModel.Type.PERSON, popularity);
+                        GameItemModel actorModel = new GameItemModel(id, name, imageUrl2, role, "person", popularity);
                         castList.add(actorModel);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -312,21 +313,25 @@ public class GameScreenFragment extends Fragment {
             for (int i = 0; i < cast.length(); i++) {
                 try {
                     JSONObject movie = cast.getJSONObject(i);
+                    String id = movie.getString("id");
                     String title = "";
                     String date = "";
-                    if (movie.getString("media_type").equals("movie")) {
+                    String type = movie.getString("media_type");
+                    if (type.equals("movie")) {
                         title = movie.getString("title");
                         date = movie.getString("release_date");
                     }
                     else {
+                    if (title.equals("The Simpsons")){
+                        System.out.println("found");
+                    }
                         title = movie.getString("name");
                         date = movie.getString("first_air_date");
                     }
                     String imageUrl2 = "https://image.tmdb.org/t/p/w500/" + movie.getString("poster_path");
-                    String id = movie.getString("id");
                     Double popularity = movie.getDouble("popularity");
                     if (!listOfUsedIds.contains(id)) {
-                        GameItemModel movieModel = new GameItemModel(id, title, imageUrl2, date, GameItemModel.Type.MOVIE, popularity);
+                        GameItemModel movieModel = new GameItemModel(id, title, imageUrl2, date, type, popularity);
                         movieCredits.add(movieModel);
                         listOfUsedIds.add(id);
                     }
@@ -401,7 +406,7 @@ public class GameScreenFragment extends Fragment {
                         String imageUrl2 = actor.getString("profile_path");
                         String id = actor.getString("id");
                         Double popularity = actor.getDouble("popularity");
-                        GameItemModel actorModel = new GameItemModel(id, name, imageUrl2, roleName, GameItemModel.Type.PERSON, popularity);
+                        GameItemModel actorModel = new GameItemModel(id, name, imageUrl2, roleName, "person", popularity);
                         castList.add(actorModel);
                     } catch (JSONException e) {
                         e.printStackTrace();

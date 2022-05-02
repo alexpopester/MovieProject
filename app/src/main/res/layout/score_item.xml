@@ -5,6 +5,16 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
+    <ImageView
+        android:id="@+id/scoreScreenImageView"
+        android:layout_width="23dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/actorName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/nameTextView"
         android:layout_width="wrap_content"

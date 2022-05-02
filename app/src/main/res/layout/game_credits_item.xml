@@ -11,17 +11,10 @@
         android:layout_width="100dp"
         android:layout_height="140dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
         android:background="@drawable/game_item_outline"
-        app:layout_constraintEnd_toStartOf="@+id/gameItemTitle"
+        app:layout_constraintEnd_toEndOf="@+id/actorName"
         app:layout_constraintStart_toStartOf="parent"
-<<<<<<< HEAD
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/forbidden" />
-=======
         app:layout_constraintTop_toTopOf="parent" />
->>>>>>> 82f4d09ec4c419bb3227d01a60815243af3b38ee
-
     <TextView
         android:id="@+id/actorName"
         android:layout_width="100dp"

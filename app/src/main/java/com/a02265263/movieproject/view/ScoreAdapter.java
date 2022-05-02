@@ -1,8 +1,10 @@
 package com.a02265263.movieproject.view;
 
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -67,6 +69,21 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.ScoreViewHol
     @Override
     public void onBindViewHolder(@NonNull ScoreAdapter.ScoreViewHolder holder, int position) {
         int standing = position + 1;
+        if (standing == 1) {
+            holder.getMedal().setImageResource(R.drawable.gold);
+            holder.getStanding().setText("");
+        }
+        else if (standing == 2) {
+            holder.getMedal().setImageResource(R.drawable.silver);
+            holder.getStanding().setText("");
+        }
+        else if (standing == 3) {
+            holder.getMedal().setImageResource(R.drawable.bronze);
+            holder.getStanding().setText("");
+        }
+        else {
+            holder.getStanding().setText("" + standing + ".");
+        }
         Score score = scores.get(position);
         holder.getName().setText(score.getName());
         holder.getMoves().setText("" + score.getMoves());
@@ -75,7 +92,6 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.ScoreViewHol
         long seconds = (long) (time / 1000) % 60;
         long milliseconds = (long) (time / 100) % 10;
         holder.getTime().setText(String.format("%02d:%02d.%02d", minutes, seconds, milliseconds));
-        holder.getStanding().setText("" + standing + ".");
 
 
 
@@ -91,6 +107,7 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.ScoreViewHol
         private TextView moves;
         private TextView time;
         private TextView standing;
+        private ImageView medal;
 
 
         public ScoreViewHolder(@NonNull View itemView){
@@ -99,6 +116,7 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.ScoreViewHol
             moves = itemView.findViewById(R.id.movesTextView);
             time = itemView.findViewById(R.id.timeTextView);
             standing = itemView.findViewById(R.id.standingTextView);
+            medal = itemView.findViewById(R.id.scoreScreenImageView);
         }
 
         public TextView getMoves() {
@@ -115,6 +133,10 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.ScoreViewHol
 
         public TextView getName() {
             return name;
+        }
+
+        public ImageView getMedal() {
+            return medal;
         }
     }
 }

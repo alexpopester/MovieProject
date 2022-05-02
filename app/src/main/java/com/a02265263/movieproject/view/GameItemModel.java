@@ -28,12 +28,9 @@ public class GameItemModel implements Comparable<GameItemModel> {
     private Type type;
     private double popularity;
 
-    public GameItemModel(String id, String title, String image, String role, Type type, double popularity) {
+    public GameItemModel(String id, String title, String image, String role, String type, double popularity) {
         this.id = id;
         this.title = title;
-        if (this.title.equals("Happiness Isn't Everything")){
-            System.out.println("Happiness Isn't Everything");
-        }
         if (!image.equals("https://image.tmdb.org/t/p/w500/null")) {
             this.image = "https://image.tmdb.org/t/p/w500" + image;
         }
@@ -41,7 +38,15 @@ public class GameItemModel implements Comparable<GameItemModel> {
             this.image = "null";
         }
         this.role = role;
-        this.type = type;
+        if (type.equals("movie")) {
+            this.type = Type.MOVIE;
+        }
+        else if (type.equals("tv")) {
+            this.type = Type.TV;
+        }
+        else {
+            this.type = Type.PERSON;
+        }
         this.popularity = popularity;
     }
 
