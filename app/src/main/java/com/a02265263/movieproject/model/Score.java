@@ -6,11 +6,8 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class Score implements Comparable<Score>{
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public long id;
-
-    @ColumnInfo
-    public String standing;
 
     @ColumnInfo
     public String name;
@@ -20,6 +17,9 @@ public class Score implements Comparable<Score>{
 
     @ColumnInfo
     public long time;
+
+    @ColumnInfo
+    public long level;
 
     @Override
     public boolean equals(Object o) {
@@ -42,5 +42,17 @@ public class Score implements Comparable<Score>{
             return -1;
         }
         else return 1;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public long getMoves() {
+        return moves;
     }
 }

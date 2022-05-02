@@ -1,6 +1,19 @@
 package com.a02265263.movieproject.view;
 
-public class GameItemModel {
+public class GameItemModel implements Comparable<GameItemModel> {
+
+    @Override
+    public int compareTo(GameItemModel o) {
+        if (this.popularity > o.popularity) {
+            return -1;
+        }
+        else if (this.popularity < o.popularity) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
 
     public enum Type {
         MOVIE,
@@ -13,13 +26,15 @@ public class GameItemModel {
     private String image;
     private String role;
     private Type type;
+    private double popularity;
 
-    public GameItemModel(String id, String title, String image, String role, Type type) {
+    public GameItemModel(String id, String title, String image, String role, Type type, double popularity) {
         this.id = id;
         this.title = title;
         this.image = "https://image.tmdb.org/t/p/w500" + image;
         this.role = role;
         this.type = type;
+        this.popularity = popularity;
     }
 
     public String getId() {
@@ -39,4 +54,6 @@ public class GameItemModel {
     }
 
     public Type getType() { return type; }
+
+    public double getPopularity() { return popularity; }
 }

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.a02265263.movieproject.R;
+import com.a02265263.movieproject.viewmodel.GameScreenViewModel;
 import com.a02265263.movieproject.viewmodel.ScoreScreenViewModel;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -23,8 +24,10 @@ public class ScoreScreenFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        // Inflate the layout for this fragment
         ScoreScreenViewModel scoreScreenViewModel = new ViewModelProvider(this).get(ScoreScreenViewModel.class);
+        GameScreenViewModel gameScreenViewModel = new ViewModelProvider(this).get(GameScreenViewModel.class).getInstance();
+        scoreScreenViewModel.newScore(gameScreenViewModel.getMoves(), gameScreenViewModel.getEndTime());
 
         View view = inflater.inflate(R.layout.fragment_score_screen, container,false);
 

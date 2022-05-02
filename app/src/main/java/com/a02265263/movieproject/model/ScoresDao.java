@@ -12,11 +12,14 @@ import java.util.List;
 public interface ScoresDao {
 
     @Query("SELECT * FROM score")
-    public List<Score> getScores();
+    List<Score> getScores();
 
     @Insert
-    public long createScore(Score score);
+    long createScore(Score score);
+
+    @Update
+    void updateScore(Score score);
 
     @Delete
-    public void deleteScore(Score score);
+    void deleteScore(Score score);
 }

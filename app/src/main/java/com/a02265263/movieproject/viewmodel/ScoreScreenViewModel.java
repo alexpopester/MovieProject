@@ -33,4 +33,8 @@ public class ScoreScreenViewModel extends ViewModel {
         });
         return this.scores;
     }
+
+    public void newScore(int moves, long endTime) {
+        this.repository.saveScore("Alex", moves, endTime);
+    }
 }

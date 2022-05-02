@@ -3,6 +3,7 @@ package com.a02265263.movieproject.view;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableArrayList;
@@ -65,7 +66,19 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.ScoreViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ScoreAdapter.ScoreViewHolder holder, int position) {
+        int standing = position + 1;
         Score score = scores.get(position);
+        holder.getName().setText(score.getName());
+        holder.getMoves().setText("" + score.getMoves());
+        long time = score.getTime();
+        long minutes = (long) time / (60*1000);
+        long seconds = (long) (time / 1000) % 60;
+        long milliseconds = (long) (time / 100) % 10;
+        holder.getTime().setText(String.format("%02d:%02d.%02d", minutes, seconds, milliseconds));
+        holder.getStanding().setText("" + standing + ".");
+
+
+
     }
 
     @Override
@@ -74,8 +87,34 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.ScoreViewHol
     }
     class ScoreViewHolder extends RecyclerView.ViewHolder {
 
+        private TextView name;
+        private TextView moves;
+        private TextView time;
+        private TextView standing;
+
+
         public ScoreViewHolder(@NonNull View itemView){
             super(itemView);
+            name = itemView.findViewById(R.id.nameTextView);
+            moves = itemView.findViewById(R.id.movesTextView);
+            time = itemView.findViewById(R.id.timeTextView);
+            standing = itemView.findViewById(R.id.standingTextView);
+        }
+
+        public TextView getMoves() {
+            return moves;
+        }
+
+        public TextView getTime() {
+            return time;
+        }
+
+        public TextView getStanding() {
+            return standing;
+        }
+
+        public TextView getName() {
+            return name;
         }
     }
 }

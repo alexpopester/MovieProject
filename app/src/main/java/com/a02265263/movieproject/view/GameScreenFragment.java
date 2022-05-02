@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GameScreenFragment extends Fragment {
@@ -63,15 +64,23 @@ public class GameScreenFragment extends Fragment {
         // Getting details about level
         String[] levelDetails = LevelSelectViewModel.getLevelDetails(level);
         String currentType = levelDetails[6];
+        gameScreenViewModel.setEndID(Integer.parseInt(levelDetails[3]));
         id = Integer.parseInt(levelDetails[0]);
         if (!gameScreenViewModel.getGameActive()) {
             gameScreenViewModel.startGame();
+            gameScreenViewModel.resetTimer();
+            gameScreenViewModel.resetMoves();
         }
         else {
             Bundle bundle = this.getArguments();
             if (bundle != null) {
-                System.out.println(bundle.getInt("id"));
+                gameScreenViewModel.newMove();
                 id = Integer.parseInt(bundle.getString("id"));
+                if (gameScreenViewModel.checkIfEnd(id)){
+                    gameScreenViewModel.endGame();
+                    gameScreenViewModel.stopTimer();
+                    NavHostFragment.findNavController(this).navigate(R.id.action_gameScreenFragment_to_scoreScreenFragment);
+                }
                 currentType = bundle.getString("type");
             }
         }
@@ -82,21 +91,22 @@ public class GameScreenFragment extends Fragment {
 
         // Running timer
         TextView timerTextView = view.findViewById(R.id.timerTxt);
-        startTime = System.currentTimeMillis();
-        Runnable timerRunnable = new Runnable() {
-            @Override
-            public void run() {
-                long millis = System.currentTimeMillis() - startTime;
-                int seconds = (int) (millis / 1000);
-                int minutes = seconds / 60;
-                seconds = seconds % 60;
-
-                timerTextView.setText(String.format("%d:%02d", minutes, seconds));
-
-                timerHandler.postDelayed(this, 500);
-            }
-        };
-        timerHandler.postDelayed(timerRunnable, 0);
+        gameScreenViewModel.startTimer(timerTextView);
+//        startTime = System.currentTimeMillis();
+//        Runnable timerRunnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                long millis = System.currentTimeMillis() - startTime;
+//                int seconds = (int) (millis / 1000);
+//                int minutes = seconds / 60;
+//                seconds = seconds % 60;
+//
+//                timerTextView.setText(String.format("%d:%02d", minutes, seconds));
+//
+//                timerHandler.postDelayed(this, 500);
+//            }
+//        };
+//        timerHandler.postDelayed(timerRunnable, 0);
 
 
         // Temporary button at the bottom
@@ -223,7 +233,7 @@ public class GameScreenFragment extends Fragment {
             ratingsView.setText(rating);
 
             // cast icons
-            JSONObject temp2 = currentGameItem.getJSONObject("credits");
+             JSONObject temp2 = currentGameItem.getJSONObject("credits");
             JSONArray cast = temp2.getJSONArray("cast");
             ObservableArrayList<GameItemModel> castList = new ObservableArrayList<>();
             for (int j = 0; j < cast.length(); j++) {
@@ -234,7 +244,8 @@ public class GameScreenFragment extends Fragment {
                         String role = actor.getString("character");
                         String imageUrl2 = actor.getString("profile_path");
                         String id = actor.getString("id");
-                        GameItemModel actorModel = new GameItemModel(id, name, imageUrl2, role, GameItemModel.Type.PERSON);
+                        Double popularity = actor.getDouble("popularity");
+                        GameItemModel actorModel = new GameItemModel(id, name, imageUrl2, role, GameItemModel.Type.PERSON, popularity);
                         castList.add(actorModel);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -300,13 +311,15 @@ public class GameScreenFragment extends Fragment {
                     String imageUrl2 = "https://image.tmdb.org/t/p/w500/" + movie.getString("poster_path");
                     String id = movie.getString("id");
                     String date = movie.getString("release_date");
-                    GameItemModel movieModel = new GameItemModel(id, title, imageUrl2, date, GameItemModel.Type.MOVIE);
+                    Double popularity = movie.getDouble("popularity");
+                    GameItemModel movieModel = new GameItemModel(id, title, imageUrl2, date, GameItemModel.Type.MOVIE, popularity);
                     movieCredits.add(movieModel);
                 }
                 catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
+            Collections.sort(movieCredits);
             RecyclerView recyclerView = view.findViewById(R.id.recyclerViewGame);
             Bundle bundle = new Bundle();
             recyclerView.setAdapter(new GameCreditsAdapter(movieCredits, getContext(), (movie) -> {
@@ -371,30 +384,14 @@ public class GameScreenFragment extends Fragment {
                         String roleName = role.getString("character");
                         String imageUrl2 = actor.getString("profile_path");
                         String id = actor.getString("id");
-                        GameItemModel actorModel = new GameItemModel(id, name, imageUrl2, roleName, GameItemModel.Type.PERSON);
+                        Double popularity = actor.getDouble("popularity");
+                        GameItemModel actorModel = new GameItemModel(id, name, imageUrl2, roleName, GameItemModel.Type.PERSON, popularity);
                         castList.add(actorModel);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
             }
-//            for (int j = 0; j < crew.length(); j++) {
-//                System.out.println("outside of error");
-//                if (j < crew.length()) {
-//                    try {
-//                        JSONObject actor = crew.getJSONObject(j);
-//                        String name = actor.getString("name");
-//                        String role = actor.getString("known_for_department");
-//                        String imageUrl2 = actor.getString("profile_path");
-//                        String id = actor.getString("id");
-//                        GameItemModel actorModel = new GameItemModel(id, name, imageUrl2, role, GameItemModel.Type.PERSON);
-//                        castList.add(actorModel);
-//                    } catch (JSONException e) {
-//                        System.out.println("error done and done");
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
             RecyclerView recyclerView = view.findViewById(R.id.recyclerViewGame);
             Bundle bundle = new Bundle();
             recyclerView.setAdapter(new GameCreditsAdapter(castList, getContext(), (actor) -> {

@@ -21,7 +21,7 @@ public class ScoresRepository {
 
     AppDatabase db;
 
-    ArrayList<Score> scores;
+    ArrayList<Score> scores = new ArrayList<>();
 
     private Handler handler = new Handler();
 
@@ -51,21 +51,20 @@ public class ScoresRepository {
         newScore.name = name;
         newScore.moves = moves;
         newScore.time = time;
-        newScore.id = db.getScoresDao().createScore(newScore);
+        new Thread(() -> {
+            newScore.id = db.getScoresDao().createScore(newScore);
+        }).start();
         scores.add(newScore);
     }
 
     public void getScores(ScoresCallback callback){
-        if (scores == null) {
-            new Thread(() -> {
-                scores = (ArrayList<Score>) db.getScoresDao().getScores();
-                Collections.sort(scores);
-                handler.post(() -> {
-                    callback.call(scores);
-                });
-            }).start();
-        } else {
-            callback.call(scores);
-        }
+        new Thread(() -> {
+            scores.clear();
+            scores = (ArrayList<Score>) db.getScoresDao().getScores();
+            Collections.sort(scores);
+            handler.post(() -> {
+                callback.call(scores);
+            });
+        }).start();
     }
 }
