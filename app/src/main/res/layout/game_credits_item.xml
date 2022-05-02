@@ -12,10 +12,15 @@
         android:layout_height="140dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
+        android:background="@drawable/game_item_outline"
         app:layout_constraintEnd_toStartOf="@+id/gameItemTitle"
         app:layout_constraintStart_toStartOf="parent"
+<<<<<<< HEAD
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/forbidden" />
+=======
+        app:layout_constraintTop_toTopOf="parent" />
+>>>>>>> 82f4d09ec4c419bb3227d01a60815243af3b38ee
 
     <TextView
         android:id="@+id/actorName"
@@ -25,6 +30,7 @@
         android:breakStrategy="balanced"
         android:ellipsize="none"
         android:text="TextView"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@+id/gameCreditsItemImage"
         app:layout_constraintTop_toBottomOf="@+id/gameCreditsItemImage" />
 
@@ -36,6 +42,7 @@
         android:ellipsize="none"
         android:scrollHorizontally="false"
         android:text="TextView"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@+id/actorName"
         app:layout_constraintTop_toBottomOf="@+id/actorName" />
 </androidx.constraintlayout.widget.ConstraintLayout>
