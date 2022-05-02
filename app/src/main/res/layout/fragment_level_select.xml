@@ -14,7 +14,7 @@
         android:id="@+id/level1Button"
         android:layout_width="65dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/custom_level_select_button"
         android:text="1"
@@ -58,7 +58,7 @@
         android:id="@+id/level4Button"
         android:layout_width="65dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="28dp"
         android:background="@drawable/custom_level_select_button"
         android:text="4"
         android:textColor="@color/gray_200"
@@ -274,15 +274,38 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
         android:text="LEVEL SELECT"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/magenta"
-        android:textSize="52sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.636"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="48sp"
+        app:layout_constraintEnd_toEndOf="@+id/level4Button"
+        app:layout_constraintStart_toStartOf="@+id/level1Button"
         app:layout_constraintTop_toTopOf="parent"
         tools:fontFamily="sans-serif-medium" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/custon_rules_button"
+        android:src="@drawable/icons8_info_50"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/rulePopUp"
+        android:layout_width="375dp"
+        android:layout_height="675dp"
+        android:background="@color/gray_700"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
