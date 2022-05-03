@@ -41,13 +41,17 @@ public class GameCreditsAdapter extends RecyclerView.Adapter<GameCreditsAdapter.
     public void onBindViewHolder(@NonNull GameCreditsAdapter.GameCreditsViewHolder holder, int position) {
         GameItemModel item = items.get(position);
         holder.getName().setText(item.getTitle());
-        if (!item.getImage().equals("null")) {
+        if (!item.getImage().endsWith("null")) {
             Glide.with(context).load(item.getImage()).into(holder.getImage());
         }
         else {
             holder.getImage().setImageResource(R.drawable.forbidden);
         }
-        holder.getRole().setText(item.getRole());
+        String role = item.getRole();
+        if (role.length() > 15) {
+            role = role.substring(0,15) + "...";
+        }
+        holder.getRole().setText(role);
         View view = holder.itemView.findViewById(R.id.actorConstraintView);
         view.setOnClickListener(v -> listener.onItemClick(item));
     }

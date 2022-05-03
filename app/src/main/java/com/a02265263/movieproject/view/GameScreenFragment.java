@@ -93,22 +93,6 @@ public class GameScreenFragment extends Fragment {
         // Running timer
         TextView timerTextView = view.findViewById(R.id.timerTxt);
         gameScreenViewModel.startTimer(timerTextView);
-//        startTime = System.currentTimeMillis();
-//        Runnable timerRunnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                long millis = System.currentTimeMillis() - startTime;
-//                int seconds = (int) (millis / 1000);
-//                int minutes = seconds / 60;
-//                seconds = seconds % 60;
-//
-//                timerTextView.setText(String.format("%d:%02d", minutes, seconds));
-//
-//                timerHandler.postDelayed(this, 500);
-//            }
-//        };
-//        timerHandler.postDelayed(timerRunnable, 0);
-
 
         // Temporary button at the bottom
         view.findViewById(R.id.gameButton).setOnClickListener(button -> {
@@ -161,14 +145,6 @@ public class GameScreenFragment extends Fragment {
         }
 
 
-//        gameItemList = new ArrayList<>();
-//        recyclerView = view.findViewById(R.id.recyclerViewGame);
-//
-//        GameItemAdapter adapter = new GameItemAdapter(this.getContext(), gameItemList);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-//
-//        recyclerView.setAdapter(adapter);
-
         return view;
     }
 
@@ -178,7 +154,6 @@ public class GameScreenFragment extends Fragment {
         try {
             String jsonText = IOUtils.toString(is, "UTF-8");
             JSONObject json = new JSONObject(jsonText);
-//            System.out.println(json.toString(4));
             return json;
         } finally {
             is.close();
@@ -285,8 +260,9 @@ public class GameScreenFragment extends Fragment {
 
             // Current person birthday
             String itemDate = currentGameItem.getString("birthday");
+            String birthDate = "Born: " + getDate(itemDate);
             TextView dateView = view.findViewById(R.id.gameItemDate);
-            dateView.setText(itemDate);
+            dateView.setText(birthDate);
 
             // Current runtime
 //                int runTime = currentGameItem.getInt("runtime");
@@ -322,16 +298,16 @@ public class GameScreenFragment extends Fragment {
                         date = movie.getString("release_date");
                     }
                     else {
-                    if (title.equals("The Simpsons")){
-                        System.out.println("found");
-                    }
+//                    if (title.equals("The Simpsons")){
+//                        System.out.println("found");
+//                    }
                         title = movie.getString("name");
                         date = movie.getString("first_air_date");
                     }
                     String imageUrl2 = "https://image.tmdb.org/t/p/w500/" + movie.getString("poster_path");
                     Double popularity = movie.getDouble("popularity");
                     if (!listOfUsedIds.contains(id)) {
-                        GameItemModel movieModel = new GameItemModel(id, title, imageUrl2, date, type, popularity);
+                        GameItemModel movieModel = new GameItemModel(id, title, imageUrl2, getDate(date), type, popularity);
                         movieCredits.add(movieModel);
                         listOfUsedIds.add(id);
                     }
@@ -379,8 +355,14 @@ public class GameScreenFragment extends Fragment {
             dateView.setText(itemDate);
 
             // Current runtime
-            TextView runTimeView = view.findViewById(R.id.runTimeTxt);
-            runTimeView.setVisibility(View.INVISIBLE);
+            String seasons = currentGameItem.getString("number_of_seasons");
+            if (Integer.parseInt(seasons) > 1) {
+                seasons += " seasons";
+            } else {
+                seasons += " season";
+            }
+            TextView seasonsView = view.findViewById(R.id.runTimeTxt);
+            seasonsView.setText(seasons);
 
             // Current item description
             String description = currentGameItem.getString("overview");
@@ -426,6 +408,54 @@ public class GameScreenFragment extends Fragment {
         }
     }
 
+    public String getDate(String date) {
+        String[] dateParts = date.split("-");
+        String finalDate = "";
+        if (dateParts.length == 3) {
+            switch (dateParts[1]) {
+                case "01":
+                    finalDate += "Jan ";
+                    break;
+                case "02":
+                    finalDate += "Feb ";
+                    break;
+                case "03":
+                    finalDate += "Mar ";
+                    break;
+                case "04":
+                    finalDate += "Apr ";
+                    break;
+                case "05":
+                    finalDate += "May ";
+                    break;
+                case "06":
+                    finalDate += "Jun ";
+                    break;
+                case "07":
+                    finalDate += "Jul ";
+                    break;
+                case "08":
+                    finalDate += "Aug ";
+                    break;
+                case "09":
+                    finalDate += "Sep ";
+                    break;
+                case "10":
+                    finalDate += "Oct ";
+                    break;
+                case "11":
+                    finalDate += "Nov ";
+                    break;
+                case "12":
+                    finalDate += "Dec ";
+                    break;
+            }
+            finalDate += dateParts[2] + ", " + dateParts[0];
+        } else {
+            finalDate = dateParts[0];
+        }
+        return finalDate;
+    }
 
 
 

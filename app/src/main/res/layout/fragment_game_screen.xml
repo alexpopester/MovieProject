@@ -82,6 +82,7 @@
         android:layout_height="0dp"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="4dp"
+        android:maxLines="8"
         android:text="Description:"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/gameScreenCurrentImage"
