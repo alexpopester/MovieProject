@@ -2,10 +2,29 @@ package com.a02265263.movieproject.viewmodel;
 
 import android.view.View;
 
+import androidx.databinding.ObservableArrayList;
 import androidx.lifecycle.ViewModel;
 
+import com.a02265263.movieproject.model.Score;
+import com.a02265263.movieproject.repo.ScoresRepository;
+
+import java.util.ArrayList;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+
+@HiltViewModel
 public class LevelSelectViewModel extends ViewModel {
     private static int level = 0;
+    private ScoresRepository repository;
+    private int size;
+
+    @Inject
+    public LevelSelectViewModel(ScoresRepository repository) {
+        this.repository = repository;
+    }
     /*
     levelDetails includes, in order
     starting id, starting title, starting image path, ending id, ending title, ending image path, start/end type

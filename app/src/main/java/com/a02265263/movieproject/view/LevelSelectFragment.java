@@ -16,11 +16,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.a02265263.movieproject.R;
+import com.a02265263.movieproject.viewmodel.GameScreenViewModel;
 import com.a02265263.movieproject.viewmodel.LevelSelectViewModel;
 import com.bumptech.glide.Glide;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class LevelSelectFragment extends Fragment {
     private int level = 0;
     private ConstraintLayout levelDetails;
@@ -33,8 +37,11 @@ public class LevelSelectFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         LevelSelectViewModel levelSelectViewModel = new ViewModelProvider(this).get(LevelSelectViewModel.class);
+        GameScreenViewModel gameScreenViewModel = new ViewModelProvider(this).get(GameScreenViewModel.class);
 
         view = inflater.inflate(R.layout.fragment_level_select, container,false);
+
+        gameScreenViewModel.endGame();
 
         rulesPopUp = view.findViewById(R.id.rulePopUp);
 
@@ -99,8 +106,6 @@ public class LevelSelectFragment extends Fragment {
     }
 
     private void ShowLevelDetails() {
-//        levelDetails.setVisibility(View.VISIBLE);
-
         String[] levelDetails = LevelSelectViewModel.getLevelDetails(level);
 
         TextView levelNumber = view.findViewById(R.id.levelDetailsLevelNumber);
@@ -157,7 +162,6 @@ public class LevelSelectFragment extends Fragment {
         if(!isUp) {
             slideUp(levelDetails);
         }
-
     }
 
     // brings up rules pop up
@@ -189,8 +193,6 @@ public class LevelSelectFragment extends Fragment {
                 rulesPopUp.setVisibility(View.INVISIBLE);
             }
         });
-
-
     }
 
 }

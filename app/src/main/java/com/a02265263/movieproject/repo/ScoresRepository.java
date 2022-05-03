@@ -33,6 +33,10 @@ public class ScoresRepository {
         public void call(ArrayList<Score> scores);
     }
 
+    public interface SizeCallback {
+        public void call(int size);
+    }
+
     public interface ScoreCallback {
         public void call(Score score);
     }
@@ -83,4 +87,5 @@ public class ScoresRepository {
             });
         }).start();
     }
+
 }
