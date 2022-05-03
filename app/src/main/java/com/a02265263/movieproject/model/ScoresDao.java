@@ -15,10 +15,13 @@ public interface ScoresDao {
     List<Score> getScores();
 
     @Query("SELECT * FROM score WHERE level = :level")
-    Score getScoreByLevel(int level);
+    List<Score> getScoresByLevel(int level);
 
     @Insert
     long createScore(Score score);
+
+    @Query("UPDATE score SET ranking = :ranking WHERE id = :id")
+    void updateScore(int ranking, int id);
 
     @Update
     void updateScore(Score score);

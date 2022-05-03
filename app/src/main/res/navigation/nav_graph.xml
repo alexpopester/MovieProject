@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_gameScreenFragment_self"
             app:destination="@id/gameScreenFragment" />
+        <action
+            android:id="@+id/action_gameScreenFragment_to_levelCompleteFragment"
+            app:destination="@id/levelCompleteFragment" />
     </fragment>
     <fragment
         android:id="@+id/levelSelectFragment"
@@ -46,5 +49,14 @@
         <action
             android:id="@+id/action_startScreenFragment_to_levelSelectFragment"
             app:destination="@id/levelSelectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/levelCompleteFragment"
+        android:name="com.a02265263.movieproject.view.levelCompleteFragment"
+        android:label="fragment_level_complete"
+        tools:layout="@layout/fragment_level_complete" >
+        <action
+            android:id="@+id/action_levelCompleteFragment_to_scoreScreenFragment"
+            app:destination="@id/scoreScreenFragment" />
     </fragment>
 </navigation>

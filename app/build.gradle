@@ -34,7 +34,9 @@ android {
 }
 
 dependencies {
-    //
+    // Lottie
+    implementation 'com.airbnb.android:lottie:5.1.1'
+
     implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.8.1'
 
     // room dependencies

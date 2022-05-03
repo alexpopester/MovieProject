@@ -46,15 +46,31 @@ public class ScoresRepository {
         db = Room.databaseBuilder(context, AppDatabase.class, "scores-database").build();
     }
 
-    public void saveScore(String name, long moves, long time){
+    public void saveScore(String name, long moves, long time, int level){
         Score newScore = new Score();
         newScore.name = name;
         newScore.moves = moves;
         newScore.time = time;
+        newScore.level = level;
+        newScore.ranking = 0;
         new Thread(() -> {
             newScore.id = db.getScoresDao().createScore(newScore);
         }).start();
         scores.add(newScore);
+    }
+
+    public void getScoresByLevel(int level, ScoresCallback callback){
+        new Thread(() -> {
+            scores = (ArrayList<Score>) db.getScoresDao().getScoresByLevel(level);
+            Collections.sort(scores);
+            int ranking = 1;
+            for (Score score : scores) {
+                db.getScoresDao().updateScore(ranking, (int)score.id);
+                score.setRanking(ranking);
+                ranking++;
+            }
+            handler.post(() -> callback.call(scores));
+        }).start();
     }
 
     public void getScores(ScoresCallback callback){

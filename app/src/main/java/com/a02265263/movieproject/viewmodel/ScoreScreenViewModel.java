@@ -18,23 +18,27 @@ public class ScoreScreenViewModel extends ViewModel {
     ScoresRepository repository;
     ObservableArrayList<Score> scores = new ObservableArrayList<>();
     MutableLiveData<String> errorMessage = new MutableLiveData<>();
+    int level;
+    GameScreenViewModel gameScreenViewModel = new GameScreenViewModel().getInstance();
 
     @Inject
-    public ScoreScreenViewModel(ScoresRepository repository) {
-        this.repository = repository;
-    }
+    public ScoreScreenViewModel(ScoresRepository repository) {this.repository = repository;}
 
     public MutableLiveData<String> getErrorMessage() { return errorMessage; }
 
-    public ObservableArrayList<Score> getScores(int level) {
+    public ObservableArrayList<Score> getScores() {
         this.scores.clear();
         this.repository.getScores(scores -> {
             this.scores.addAll(scores);
         });
         return this.scores;
     }
-
-    public void newScore(int moves, long endTime) {
-        this.repository.saveScore("Alex", moves, endTime);
+    public ObservableArrayList<Score> getScoresByLevel(){
+        level = gameScreenViewModel.getLevel();
+        this.scores.clear();
+        this.repository.getScoresByLevel(level, scores -> {
+            this.scores.addAll(scores);
+        });
+        return this.scores;
     }
 }

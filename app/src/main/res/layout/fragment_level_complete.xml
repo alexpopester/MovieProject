@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout3"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_700"
+    tools:context=".view.levelCompleteFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <android.widget.Button
+        android:id="@+id/toScoreScreenButton"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="132dp"
+        android:background="@drawable/custom_start_button"
+        android:text="Done"
+        android:textColor="#313132"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/congratulationsText"
+        app:layout_constraintStart_toStartOf="@+id/congratulationsText"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPersonName"
+        tools:fontFamily="serif" />
+
+    <TextView
+        android:id="@+id/congratulationsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="140dp"
+        android:text="CONGRATULATIONS"
+        android:textColor="@color/magenta"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationView"
+        android:layout_width="405dp"
+        android:layout_height="282dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/congratulationsText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/congratulationsText"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="confetti.json"
+        app:lottie_loop="true"
+        app:lottie_speed="1.25"
+        tools:lottie_repeatCount="5"
+        tools:lottie_repeatMode="restart" />
+
+    <EditText
+        android:id="@+id/editTextPersonName"
+        android:layout_width="212dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="28dp"
+        android:background="@color/gray_500"
+        android:ems="10"
+        android:hint="Enter Name"
+        android:inputType="textPersonName"
+        android:maxEms="12"
+        android:textColor="@color/light_blue"
+        android:textColorHint="@color/light_blue"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/congratulationsText"
+        app:layout_constraintStart_toStartOf="@+id/congratulationsText"
+        app:layout_constraintTop_toBottomOf="@+id/animationView" />
+
+    <TextView
+        android:id="@+id/yourMoves"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Moves"
+        android:textColor="@color/magenta"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="@+id/editTextPersonName"
+        app:layout_constraintStart_toStartOf="@+id/editTextPersonName"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPersonName" />
+
+    <TextView
+        android:id="@+id/yourTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time"
+        android:textColor="@color/magenta"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="@+id/congratulationsText"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPersonName" />
+
+    <TextView
+        android:id="@+id/yourLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Level"
+        android:textColor="@color/magenta"
+        android:textSize="28sp"
+        app:layout_constraintStart_toStartOf="@+id/congratulationsText"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPersonName" />
+
+    <TextView
+        android:id="@+id/congratsLevelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="1"
+        android:textColor="@color/light_blue"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/toScoreScreenButton"
+        app:layout_constraintEnd_toEndOf="@+id/yourLevel"
+        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintStart_toStartOf="@+id/yourLevel"
+        app:layout_constraintTop_toBottomOf="@+id/yourLevel"
+        app:layout_constraintVertical_bias="0.137" />
+
+    <TextView
+        android:id="@+id/congratsMovesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5"
+        android:textColor="@color/light_blue"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/yourMoves"
+        app:layout_constraintStart_toStartOf="@+id/yourMoves"
+        app:layout_constraintTop_toTopOf="@+id/congratsLevelTextView" />
+
+    <TextView
+        android:id="@+id/congratsTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00"
+        android:textColor="@color/light_blue"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/yourTime"
+        app:layout_constraintStart_toStartOf="@+id/yourTime"
+        app:layout_constraintTop_toTopOf="@+id/congratsMovesTextView" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

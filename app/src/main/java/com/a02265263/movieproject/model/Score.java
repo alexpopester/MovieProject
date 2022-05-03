@@ -21,6 +21,9 @@ public class Score implements Comparable<Score>{
     @ColumnInfo
     public long level;
 
+    @ColumnInfo
+    public int ranking;
+
     @Override
     public boolean equals(Object o) {
         Score other = (Score) o;
@@ -58,5 +61,17 @@ public class Score implements Comparable<Score>{
 
     public long getLevel() {
         return level;
+    }
+
+    public int getRanking(){
+        return ranking;
+    }
+
+    public void setRanking(int ranking){
+        this.ranking = ranking;
+    }
+
+    public long getId() {
+        return id;
     }
 }

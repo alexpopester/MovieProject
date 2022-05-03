@@ -26,8 +26,6 @@ public class ScoreScreenFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ScoreScreenViewModel scoreScreenViewModel = new ViewModelProvider(this).get(ScoreScreenViewModel.class);
-        GameScreenViewModel gameScreenViewModel = new ViewModelProvider(this).get(GameScreenViewModel.class).getInstance();
-        scoreScreenViewModel.newScore(gameScreenViewModel.getMoves(), gameScreenViewModel.getEndTime());
 
         View view = inflater.inflate(R.layout.fragment_score_screen, container,false);
 
@@ -37,9 +35,8 @@ public class ScoreScreenFragment extends Fragment {
         view.findViewById(R.id.retryButton).setOnClickListener(button -> {
             NavHostFragment.findNavController(this).navigate(R.id.action_scoreScreenFragment_to_gameScreenFragment);
         });
-        int level = gameScreenViewModel.getLevel();
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewScoreScreen);
-        recyclerView.setAdapter(new ScoreAdapter(scoreScreenViewModel.getScores(level), (score) -> {
+        recyclerView.setAdapter(new ScoreAdapter(scoreScreenViewModel.getScoresByLevel(), (score) -> {
             System.out.println("touched");
         }));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

@@ -79,7 +79,7 @@ public class GameScreenFragment extends Fragment {
                 if (gameScreenViewModel.checkIfEnd(id)){
                     gameScreenViewModel.endGame();
                     gameScreenViewModel.stopTimer();
-                    NavHostFragment.findNavController(this).navigate(R.id.action_gameScreenFragment_to_scoreScreenFragment);
+                    NavHostFragment.findNavController(this).navigate(R.id.action_gameScreenFragment_to_levelCompleteFragment);
                     System.out.println("error");
                 }
                 currentType = bundle.getString("type");

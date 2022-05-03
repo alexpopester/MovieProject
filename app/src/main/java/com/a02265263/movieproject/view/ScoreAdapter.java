@@ -68,23 +68,23 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.ScoreViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ScoreAdapter.ScoreViewHolder holder, int position) {
-        int standing = position + 1;
-        if (standing == 1) {
+        Score score = scores.get(position);
+        if (score.getRanking() == 1) {
             holder.getMedal().setImageResource(R.drawable.gold);
-            holder.getStanding().setText("");
+            holder.getStanding().setText("\t\t");
         }
-        else if (standing == 2) {
+        else if (score.getRanking() == 2) {
             holder.getMedal().setImageResource(R.drawable.silver);
-            holder.getStanding().setText("");
+            holder.getStanding().setText("\t\t");
         }
-        else if (standing == 3) {
+        else if (score.getRanking() == 3) {
             holder.getMedal().setImageResource(R.drawable.bronze);
-            holder.getStanding().setText("");
+            holder.getStanding().setText("\t\t");
         }
         else {
-            holder.getStanding().setText("" + standing + ".");
+            holder.getMedal().setImageDrawable(null);
+            holder.getStanding().setText("" + score.getRanking() + ".");
         }
-        Score score = scores.get(position);
         holder.getName().setText(score.getName());
         holder.getMoves().setText("" + score.getMoves());
         long time = score.getTime();
