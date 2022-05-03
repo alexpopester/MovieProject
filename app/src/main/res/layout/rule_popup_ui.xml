@@ -7,7 +7,7 @@
     android:background="@color/gray_200">
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/rulesExitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -30,7 +30,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/rulesExplanation"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginLeft="16dp"

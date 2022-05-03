@@ -3,7 +3,6 @@ package com.a02265263.movieproject.view;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.databinding.ObservableInt;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
@@ -12,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,11 +19,12 @@ import com.a02265263.movieproject.R;
 import com.a02265263.movieproject.viewmodel.LevelSelectViewModel;
 import com.bumptech.glide.Glide;
 
-import java.util.Observable;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class LevelSelectFragment extends Fragment {
     private int level = 0;
     private ConstraintLayout levelDetails;
+    private FrameLayout rulesPopUp;
     private View view;
     private boolean isUp;
 
@@ -34,6 +35,13 @@ public class LevelSelectFragment extends Fragment {
         LevelSelectViewModel levelSelectViewModel = new ViewModelProvider(this).get(LevelSelectViewModel.class);
 
         view = inflater.inflate(R.layout.fragment_level_select, container,false);
+
+        rulesPopUp = view.findViewById(R.id.rulePopUp);
+
+        //rules button
+        view.findViewById(R.id.rulesPopUpButton).setOnClickListener(button -> {
+            rulesPopUp();
+        });
 
         isUp = false;
         levelDetails = view.findViewById(R.id.levelDetails);
@@ -142,12 +150,46 @@ public class LevelSelectFragment extends Fragment {
         isUp = false;
     }
 
+    //slides up level details
     private void levelSelectOnClick(int level) {
         this.level = level;
         ShowLevelDetails();
         if(!isUp) {
             slideUp(levelDetails);
         }
+
+    }
+
+    // brings up rules pop up
+    private void rulesPopUp() {
+        rulesPopUp.setVisibility(View.VISIBLE);
+
+        ImageView rulesImage = rulesPopUp.findViewById(R.id.rulesExplanation);
+        rulesImage.setImageResource(R.drawable.rules_page_1);
+        AtomicInteger page = new AtomicInteger(1);
+
+        view.findViewById(R.id.rulesExitButton).setOnClickListener(button -> {
+            rulesPopUp.setVisibility(View.INVISIBLE);
+        });
+
+        rulesPopUp.setOnClickListener(button -> {
+            if (page.get() == 1) {
+                page.getAndIncrement();
+                rulesImage.setImageResource(R.drawable.rules_page_2);
+            } else if (page.get() == 2) {
+                page.getAndIncrement();
+                rulesImage.setImageResource(R.drawable.rules_page_3);
+            } else if (page.get() == 3) {
+                page.getAndIncrement();
+                rulesImage.setImageResource(R.drawable.rules_page_4);
+            } else if (page.get() == 4) {
+                page.getAndIncrement();
+                rulesImage.setImageResource(R.drawable.rules_page_5);
+            } else {
+                rulesPopUp.setVisibility(View.INVISIBLE);
+            }
+        });
+
 
     }
 
